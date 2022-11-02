@@ -1,11 +1,10 @@
-app = "postgres-ha-example"
+# fly.toml file generated for frozarpg on 2022-11-02T10:16:40+04:00
 
+app = "frozarpg"
 kill_signal = "SIGTERM"
 kill_timeout = 300
-services = []
 
 [checks]
-
   [checks.pg]
     grace_period = "30s"
     interval = "15s"
@@ -14,7 +13,6 @@ services = []
     port = 5500
     timeout = "10s"
     type = "http"
-
   [checks.role]
     grace_period = "30s"
     interval = "15s"
@@ -23,7 +21,6 @@ services = []
     port = 5500
     timeout = "10s"
     type = "http"
-
   [checks.vm]
     grace_period = "1s"
     interval = "1m"
@@ -50,3 +47,11 @@ services = []
 [[mounts]]
   destination = "/data"
   source = "pg_data"
+
+[[services]]
+  internal_port = 5432
+  protocol = "tcp"
+
+  [[services.ports]]
+    handlers = []
+    port = 12345

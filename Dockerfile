@@ -61,3 +61,9 @@ ENV ENV="/fly/shell-init"
 EXPOSE 5432
 
 CMD ["start"]
+
+RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ bullseye-pgdg main" > /etc/apt/sources.list.d/pgdg.list \
+    && apt install wget ca-certificates --no-install-recommends -y \
+    && wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - \
+    && apt update \
+    && apt install postgresql-14-pgrouting --no-install-recommends -y
