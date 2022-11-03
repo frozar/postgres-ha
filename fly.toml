@@ -48,10 +48,3 @@ kill_timeout = 300
   destination = "/data"
   source = "pg_data"
 
-[[services]]
-  internal_port = 5432
-  protocol = "tcp"
-
-  [[services.ports]]
-    handlers = []
-    port = 12345
