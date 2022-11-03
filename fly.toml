@@ -1,4 +1,4 @@
-# fly.toml file generated for pgroutingdb on 2022-11-03T15:48:03+04:00
+# fly.toml file generated for pgroutingdb on 2022-11-03T17:05:13+04:00
 
 app = "pgroutingdb"
 kill_signal = "SIGTERM"
