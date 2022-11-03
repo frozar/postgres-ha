@@ -32,17 +32,22 @@ LABEL fly.version=${VERSION}
 LABEL fly.pg-version=${PG_VERSION}
 
 RUN apt-get update && apt-get install --no-install-recommends -y \
-    ca-certificates curl bash dnsutils vim-tiny procps jq haproxy \
+    ca-certificates curl bash dnsutils vim-tiny procps jq haproxy wget \
     && apt autoremove -y
 
 RUN echo "deb https://packagecloud.io/timescale/timescaledb/debian/ $(cat /etc/os-release | grep VERSION_CODENAME | cut -d'=' -f2) main" > /etc/apt/sources.list.d/timescaledb.list \
     && curl -L https://packagecloud.io/timescale/timescaledb/gpgkey | apt-key add -
 
+RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ bullseye-pgdg main" > /etc/apt/sources.list.d/pgdg.list \
+    && wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
+
 RUN apt-get update && apt-get install --no-install-recommends -y \
-    postgresql-$PG_MAJOR-postgis-$POSTGIS_MAJOR \
-    postgresql-$PG_MAJOR-postgis-$POSTGIS_MAJOR-scripts \
-    timescaledb-2-postgresql-$PG_MAJOR \
+    postgresql-${PG_MAJOR}-postgis-${POSTGIS_MAJOR} \
+    postgresql-${PG_MAJOR}-postgis-${POSTGIS_MAJOR}-scripts \
+    timescaledb-2-postgresql-${PG_MAJOR} \
+    postgresql-${PG_MAJOR}-pgrouting \
     && apt autoremove -y \
+    && rm -rf /var/lib/apt/lists/* \
     && echo 'Installing wal-g' \
     && curl -L https://github.com/wal-g/wal-g/releases/download/v${WALG_VERSION}/wal-g-pg-ubuntu-18.04-amd64 > /usr/local/bin/wal-g \
     && chmod +x /usr/local/bin/wal-g
@@ -56,14 +61,11 @@ RUN useradd -ms /bin/bash stolon
 RUN mkdir -p /run/haproxy/
 COPY --from=flyutil /fly/bin/* /usr/local/bin/
 
+COPY reset-pgrountingdb /usr/local/bin/
+RUN chmod a+x /usr/local/bin/reset-pgrountingdb
+
 ENV ENV="/fly/shell-init"
 
 EXPOSE 5432
 
 CMD ["start"]
-
-RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ bullseye-pgdg main" > /etc/apt/sources.list.d/pgdg.list \
-    && apt install wget ca-certificates --no-install-recommends -y \
-    && wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - \
-    && apt update \
-    && apt install postgresql-14-pgrouting --no-install-recommends -y

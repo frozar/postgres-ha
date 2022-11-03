@@ -1,0 +1,16 @@
+#!/bin/sh
+
+DB=pgrouting_basic \
+&& pid=$(PGPASSWORD=${OPERATOR_PASSWORD} psql -h 127.0.0.1 -U postgres \
+-c " SELECT pid, datname FROM pg_stat_activity WHERE pid <> pg_backend_pid()" \
+ | grep ${DB} | cut -d" " -f2) \
+ &&  if [ ! -z "$pid" ] 
+        then echo "Killing PARASITE PID, $pid, READING THE DB" \
+            && kill $pid \
+            && sleep 10
+        else echo "NO PARASITE PID READING THE DB"
+        fi \
+&& PGPASSWORD=${OPERATOR_PASSWORD} psql -h 127.0.0.1 -U postgres -c "DROP DATABASE IF EXISTS ${DB}" \
+&& PGPASSWORD=${OPERATOR_PASSWORD} psql -h 127.0.0.1 -U postgres -c "CREATE DATABASE ${DB}" \
+&& PGPASSWORD=${OPERATOR_PASSWORD} psql -h 127.0.0.1 -U postgres -d ${DB} -c "CREATE EXTENSION PostGIS" \
+&& PGPASSWORD=${OPERATOR_PASSWORD} psql -h 127.0.0.1 -U postgres -d ${DB} -c "CREATE EXTENSION pgRouting"

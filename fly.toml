@@ -1,6 +1,6 @@
-# fly.toml file generated for frozarpg on 2022-11-02T10:16:40+04:00
+# fly.toml file generated for pgroutingdb on 2022-11-03T15:48:03+04:00
 
-app = "frozarpg"
+app = "pgroutingdb"
 kill_signal = "SIGTERM"
 kill_timeout = 300
 
@@ -47,4 +47,3 @@ kill_timeout = 300
 [[mounts]]
   destination = "/data"
   source = "pg_data"
-
