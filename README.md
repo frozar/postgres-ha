@@ -1,3 +1,6 @@
+This project rely on the repository 'postgres-ha' from fly.io:  
+https://fly.io/docs/postgres/
+
 # High Availability Postgres on Fly.io
 
 This repo contains all the code and configuration necessary to run a [highly available Postgres cluster](https://fly.io/docs/postgres/) in a Fly.io organization's private network. This source is packaged into [Docker images](https://hub.docker.com/r/flyio/postgres-ha/tags) which allow you to track and upgrade versions cleanly as new features are added.
