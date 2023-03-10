@@ -61,9 +61,6 @@ RUN useradd -ms /bin/bash stolon
 RUN mkdir -p /run/haproxy/
 COPY --from=flyutil /fly/bin/* /usr/local/bin/
 
-COPY reset-pgroutingdb /usr/local/bin/
-RUN chmod a+x /usr/local/bin/reset-pgroutingdb
-
 ENV ENV="/fly/shell-init"
 
 EXPOSE 5432

@@ -1,6 +1,11 @@
 This project rely on the repository 'postgres-ha' from fly.io:  
 https://github.com/fly-apps/postgres-ha
 
+# Command to restore the pgroutingdb database
+
+COPY reset-pgroutingdb /usr/local/bin/  
+RUN chmod a+x /usr/local/bin/reset-pgroutingdb
+
 # High Availability Postgres on Fly.io
 
 This repo contains all the code and configuration necessary to run a [highly available Postgres cluster](https://fly.io/docs/postgres/) in a Fly.io organization's private network. This source is packaged into [Docker images](https://hub.docker.com/r/flyio/postgres-ha/tags) which allow you to track and upgrade versions cleanly as new features are added.
@@ -88,8 +93,7 @@ psql postgres://postgres:<operator_password>@localhost:5432
 
 ## Enabling TimescaleDB
 
-This app includes the [TimescaleDB extension](https://timescale.com/).  To enable TimescaleDB, take the following steps:
-
+This app includes the [TimescaleDB extension](https://timescale.com/). To enable TimescaleDB, take the following steps:
 
 1. Ensure your Postgres app is running `>= v0.0.28`.
 

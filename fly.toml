@@ -1,8 +1,9 @@
-# fly.toml file generated for flaxidb on 2022-11-06T15:48:31+04:00
+# fly.toml file generated for flaxidb-fresh on 2023-03-09T11:02:08+04:00
 
-app = "flaxidb"
+app = "flaxidb-fresh"
 kill_signal = "SIGTERM"
 kill_timeout = 300
+primary_region = "cdg"
 
 [checks]
   [checks.pg]
@@ -32,7 +33,7 @@ kill_timeout = 300
 
 [env]
   BACKEND_STORE = "consul"
-  PRIMARY_REGION = "ord"
+  PRIMARY_REGION = "cdg"
 
 [experimental]
   allowed_public_ports = []
