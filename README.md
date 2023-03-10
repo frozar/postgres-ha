@@ -1,6 +1,15 @@
 This project rely on the repository 'postgres-ha' from fly.io:  
 https://github.com/fly-apps/postgres-ha
 
+# Build and export of the frozar/flyio-postgres image
+
+Build and publish the image:
+
+```sh
+docker build -t frozar/flyio-postgres:2023-03 .
+docker push frozar/flyio-postgres:2023-03
+```
+
 # Command to restore the pgroutingdb database
 
 COPY reset-pgroutingdb /usr/local/bin/  
